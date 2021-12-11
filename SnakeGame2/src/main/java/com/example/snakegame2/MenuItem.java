@@ -31,7 +31,7 @@ public class MenuItem extends Pane {
         text = new Text(name);
         text.setTranslateX(5);
         text.setTranslateY(20);
-        text.setFont(Font.loadFont(MainMenu.class.getResource("comic.ttf").toExternalForm(), 14));
+        text.setFont(Font.font(("SnakeGame2/src/main/resources/cour.ttf"), 14));
         text.setFill(Color.WHITE);
         text.effectProperty().bind(
                 Bindings.when(hoverProperty())

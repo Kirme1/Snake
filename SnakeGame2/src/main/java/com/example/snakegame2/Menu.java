@@ -1,6 +1,7 @@
 package com.example.snakegame2;
 
-import javafx.animation.*;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Node;
@@ -18,22 +19,23 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
-class MainMenu extends Application {
+public class Menu extends Application {
 
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;
+    private final SnakeGame normalGame = new SnakeGame();
 
     private List<Pair<String, Runnable>> menuData = Arrays.asList(
-            new Pair<String, Runnable>("Normal snake game", () -> {
-            }),
+            new Pair<String, Runnable>("Normal snake game",normalGame
+            ),
             new Pair<String, Runnable>("Windowless snake game", () -> {
             }),
-            new Pair<String, Runnable>("Settings", () -> {
+            new Pair<String, Runnable>("User manual", () -> {
             }),
             new Pair<String, Runnable>("Exit to Desktop", Platform::exit)
     );
@@ -43,8 +45,10 @@ class MainMenu extends Application {
     private Line line;
 
 
-    private void addBackground() {
-        ImageView imageView = new ImageView(new Image(getClass().getResource("https://image.shutterstock.com/image-photo/small-nonpoisonous-grass-snake-on-260nw-1950501079.jpg").toExternalForm()));
+    private void addBackground() throws FileNotFoundException {
+        Image image = new Image( new FileInputStream("SnakeGame2/src/main/resources/MainMenuBG.jpg"));
+        ImageView imageView = new ImageView();
+        imageView.setImage(image);
         imageView.setFitHeight(HEIGHT);
         imageView.setFitWidth(WIDTH);
         root.getChildren().add(imageView);
@@ -52,12 +56,14 @@ class MainMenu extends Application {
 
     public void addTitle() {
         Title title = new Title();
+        title.snakeTitle("Snake");
         title.setTranslateX(WIDTH / 2 - title.getTitleWidth() / 2);
         title.setTranslateY(HEIGHT / 3);
         root.getChildren().add(title);
     }
+
     private void addLine(double x, double y) {
-        line = new Line(x, y, x, y + 300);
+        line = new Line(x, y, x, y + 170);
         line.setStrokeWidth(3);
         line.setStroke(Color.color(1, 1, 1, 0.75));
         line.setEffect(new DropShadow(5, Color.BLACK));
@@ -94,7 +100,7 @@ class MainMenu extends Application {
         root.getChildren().add(menuBox);
     }
 
-    private Parent createContent() {
+    private Parent createContent() throws FileNotFoundException {
         addBackground();
         addTitle();
         int lineX = WIDTH/2 - 100;
@@ -106,12 +112,15 @@ class MainMenu extends Application {
         return root;
     }
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
-    public void start (Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws FileNotFoundException {
         Scene scene = new Scene(createContent());
         primaryStage.setTitle("Snake");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    public static void main (String[] args) { launch(args); }
 }

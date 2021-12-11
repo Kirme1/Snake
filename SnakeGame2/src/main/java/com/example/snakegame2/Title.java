@@ -15,7 +15,7 @@ public class Title extends Pane {
             spread += c + " ";
         }
         text = new Text(spread);
-        text.setFont(Font.font("comic.ttf"));
+        text.setFont(Font.font("SnakeGame2/src/main/resources/cour.ttf", 40));
         text.setFill(Color.WHITE);
         text.setEffect(new DropShadow(30, Color.BLACK));
         getChildren().addAll(text);
