@@ -1,6 +1,7 @@
 package com.example.snakegame2;
 
 import Direction.Direction;
+import Fruit.Fruit;
 import Snake.Snake;
 import SnakeBackground.SnakeBackground;
 import javafx.animation.Animation;
@@ -29,6 +30,7 @@ public class SnakeGame extends Application implements Runnable{
 
     private SnakeBackground background;
     private Snake snake;
+    private Fruit fruit;
     private GraphicsContext gc;
     private boolean gameOver;
     private Direction currentDirection=Direction.DOWN;
@@ -105,6 +107,8 @@ public class SnakeGame extends Application implements Runnable{
             }
         });
         snake=new Snake();
+        fruit = new Fruit();
+        fruit.produceFruit();
         snake.drawSnakeBody();
         timeLine.play();
 
@@ -117,6 +121,7 @@ public class SnakeGame extends Application implements Runnable{
             return;
         }
         drawBackground(gc);
+        fruit.drawFruit(gc);
         drawSnake(gc);
         drawScore();
         for(int i=snake.getSnakeBody().size()-1;i>=1;i--){
@@ -141,6 +146,7 @@ public class SnakeGame extends Application implements Runnable{
 
         }
         gameOver();
+        eatFruit();
     }
 
     public void drawBackground(GraphicsContext gc){
@@ -191,6 +197,22 @@ public class SnakeGame extends Application implements Runnable{
             }
         }
     }
+    public void eatFruit() throws IOException {
+        if (snake.getSnakeHead().getX() == fruit.getFruitX() && snake.getSnakeHead().getY() == fruit.getFruitY()) {
+            snake.getSnakeBody().add(new Point(-1, -1));
+            start:
+            while (true) {
+                fruit.produceFruit();
+                for (Point snake : snake.getSnakeBody()) {
+                    if (snake.getX() == fruit.getFruitX() && snake.getY() == fruit.getFruitY()) {
+                        continue start;
+                    }
+                }
+                break;
+            }
+            score += 5;
+        }
+    }
     private void  drawScore() {
         gc.setFill(Color.WHITE);
         gc.setFont(new Font("Digital-7",35));
@@ -199,9 +221,10 @@ public class SnakeGame extends Application implements Runnable{
     }
     private void restart() throws FileNotFoundException {
         gameOver = false;
-        currentDirection = Direction.RIGHT;
+        currentDirection = Direction.DOWN;
         snake.getSnakeBody().clear();
-        for (int i=0; i<5; i++) {
+        score = 0;
+        for (int i=0; i<3; i++) {
             snake.getSnakeBody().add(new Point(4, (int) (background.getRows()/2)));
         }
         snake.setSnakeHead(snake.getSnakeBody().get(0));
