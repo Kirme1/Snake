@@ -30,14 +30,14 @@ public class Fruit {
     }
 
     public void addFruits() throws FileNotFoundException {
-        fruits.add(new Image(new FileInputStream("SnakeGame2/src/main/java/Fruit/images/ic_apple.png")));
-        fruits.add(new Image(new FileInputStream("SnakeGame2/src/main/java/Fruit/images/ic_berry.png")));
-        fruits.add(new Image(new FileInputStream("SnakeGame2/src/main/java/Fruit/images/ic_cherry.png")));
-        fruits.add(new Image(new FileInputStream("SnakeGame2/src/main/java/Fruit/images/ic_coconut_.png")));
-        fruits.add(new Image(new FileInputStream("SnakeGame2/src/main/java/Fruit/images/ic_orange.png")));
-        fruits.add(new Image(new FileInputStream("SnakeGame2/src/main/java/Fruit/images/ic_peach.png")));
-        fruits.add(new Image(new FileInputStream("SnakeGame2/src/main/java/Fruit/images/ic_pomegranate.png")));
-        fruits.add(new Image(new FileInputStream("SnakeGame2/src/main/java/Fruit/images/ic_watermelon.png")));
+        fruits.add(new Image(new FileInputStream("src/main/java/Fruit/images/ic_apple.png")));
+        fruits.add(new Image(new FileInputStream("src/main/java/Fruit/images/ic_berry.png")));
+        fruits.add(new Image(new FileInputStream("src/main/java/Fruit/images/ic_cherry.png")));
+        fruits.add(new Image(new FileInputStream("src/main/java/Fruit/images/ic_coconut_.png")));
+        fruits.add(new Image(new FileInputStream("src/main/java/Fruit/images/ic_orange.png")));
+        fruits.add(new Image(new FileInputStream("src/main/java/Fruit/images/ic_peach.png")));
+        fruits.add(new Image(new FileInputStream("src/main/java/Fruit/images/ic_pomegranate.png")));
+        fruits.add(new Image(new FileInputStream("src/main/java/Fruit/images/ic_watermelon.png")));
     }
 
     public void produceFruit() throws FileNotFoundException {
