@@ -3,7 +3,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -26,18 +25,18 @@ public class SnakeBackground {
 
     public void drawBackground(GraphicsContext gc) throws FileNotFoundException {
 
-        Image image = new Image(new FileInputStream("src/main/resources/com/example/snakegame2/Background_Green.png"));
+        Image image = new Image(new FileInputStream("SnakeGame2/src/main/resources/com/example/snakegame2/Background_Green.png"));
 
         if (backgroundType == 1){
-            image = new Image(new FileInputStream("src/main/resources/com/example/snakegame2/Background_Green.png"));
+            image = new Image(new FileInputStream("SnakeGame2/src/main/resources/com/example/snakegame2/Background_Green.png"));
         }
         if (backgroundType == 2)
         {
-            image = new Image(new FileInputStream("src/main/resources/com/example/snakegame2/Background_Blue.png"));
+            image = new Image(new FileInputStream("SnakeGame2/src/main/resources/com/example/snakegame2/Background_Blue.png"));
         }
         if (backgroundType == 3)
         {
-            image = new Image(new FileInputStream("src/main/resources/com/example/snakegame2/Background_Orange.png"));
+            image = new Image(new FileInputStream("SnakeGame2/src/main/resources/com/example/snakegame2/Background_Orange.png"));
         }
 
 
@@ -47,7 +46,6 @@ public class SnakeBackground {
         imageView.setFitWidth(WIDTH);
         gc.drawImage(image, 0, 0);
     }
-
 
     public double getWidth(){
         return WIDTH;

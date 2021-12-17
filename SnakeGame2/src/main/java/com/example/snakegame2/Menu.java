@@ -30,14 +30,14 @@ public class Menu extends Application {
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;
     private final SnakeGameNormal normalGame = new SnakeGameNormal();
-    //private final SnakeGameNoWalls noWallsGame= new SnakeGameNoWalls();
+    private final SnakeGameNoWalls noWallsGame= new SnakeGameNoWalls();
+    private final ScoreBoard scoreBoard = new ScoreBoard();
 
     private List<Pair<String, Runnable>> menuData = Arrays.asList(
             new Pair<String, Runnable>("Normal snake game",normalGame
             ),
-            new Pair<String, Runnable>("No Walls Snake Game", () -> {
-            }),
-            new Pair<String, Runnable>("Score Board",()->{}),
+            new Pair<String, Runnable>("No Walls Snake Game", noWallsGame),
+            new Pair<String, Runnable>("Score Board", scoreBoard),
             new Pair<String, Runnable>("User manual", () -> {
             }),
             new Pair<String, Runnable>("Exit to Desktop", Platform::exit)
@@ -49,16 +49,13 @@ public class Menu extends Application {
 
 
     private void addBackground() throws FileNotFoundException {
-        Image image = new Image( new FileInputStream("src/main/resources/MainMenuBG.jpg"));
+        Image image = new Image( new FileInputStream("SnakeGame2/src/main/resources/MainMenuBG.jpg"));
         ImageView imageView = new ImageView();
         imageView.setImage(image);
         imageView.setFitHeight(HEIGHT);
         imageView.setFitWidth(WIDTH);
         root.getChildren().add(imageView);
     }
-
-
-
 
     private void startAnimation() {
         ScaleTransition st = new ScaleTransition(Duration.seconds(1), line);
@@ -103,7 +100,7 @@ public class Menu extends Application {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        line = new Line(WIDTH/2-100, HEIGHT/3+50, WIDTH/2-100, HEIGHT/3+240);
+        line = new Line(WIDTH/2-100, HEIGHT/3+50, WIDTH/2-100, HEIGHT/3+270);
         line.setStrokeWidth(3);
         line.setStroke(Color.color(1, 1, 1, 0.75));
         line.setEffect(new DropShadow(5, Color.BLACK));

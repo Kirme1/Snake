@@ -2,6 +2,7 @@ package com.example.snakegame2;
 
 import Direction.Direction;
 import Fruit.Fruit;
+import Score.ScoreManager;
 import Snake.Snake;
 import SnakeBackground.SnakeBackground;
 import javafx.animation.Animation;
@@ -42,6 +43,7 @@ public class SnakeGameNoWalls extends Application implements Runnable {
     private boolean musicPlaying = false;
     private MediaPlayer musicPlayer;
     private MediaPlayer soundPlayer;
+    ScoreManager scoreManager = new ScoreManager();
 
 
     @Override
@@ -124,10 +126,14 @@ public class SnakeGameNoWalls extends Application implements Runnable {
 
     public void run(GraphicsContext gc) throws IOException {
         if (gameOver) {
+            if(0 < score){
+                scoreManager.addScore(score);
+                score = 0;
+            }
             if (musicPlaying == true)
             {
                 musicPlayer.stop();
-                playSound("src/main/resources/com/example/snakegame2/sounds/Death_sound.mp3");
+                playSound("SnakeGame2/src/main/resources/com/example/snakegame2/sounds/Death_sound.mp3");
                 musicPlaying = false;
 
             }
@@ -138,7 +144,7 @@ public class SnakeGameNoWalls extends Application implements Runnable {
         }
         else {
             if(musicPlaying == false) {
-                playMusic("src/main/resources/com/example/snakegame2/sounds/Playing_music.mp3");
+                playMusic("SnakeGame2/src/main/resources/com/example/snakegame2/sounds/Playing_music.mp3");
                 musicPlaying = true;
             }
 
@@ -232,7 +238,7 @@ public class SnakeGameNoWalls extends Application implements Runnable {
 
     public void eatFruit() throws IOException {
         if (snake.getSnakeHead().getX() == fruit.getFruitX() && snake.getSnakeHead().getY() == fruit.getFruitY()) {
-            playSound("src/main/resources/com/example/snakegame2/sounds/EatFruitSound_sound.mp3");
+            playSound("SnakeGame2/src/main/resources/com/example/snakegame2/sounds/EatFruitSound_sound.mp3");
             snake.getSnakeBody().add(new Point(-1, -1));
             start:
             while (true){
