@@ -69,6 +69,7 @@ public class SnakeGameNormal extends Application implements Runnable {
         timeLine.setCycleCount(cycleCount);
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
+            //this controls the actions of the player
             public void handle(KeyEvent event) {
                 KeyCode code = event.getCode();
                 if (code == KeyCode.RIGHT || code == KeyCode.D) {
@@ -102,10 +103,16 @@ public class SnakeGameNormal extends Application implements Runnable {
                 }
             }
         });
+        stage.setOnCloseRequest(event -> {
+            timeLine.stop();
+            musicPlayer.stop();
+            musicPlaying = false;
+        });
         snake = new Snake();
         fruit = new Fruit();
         snake.initiateSnakeBody();
 
+        //this part makes sure that the location of the newly created fruit is not on the snake
         start:
         while (true) {
             fruit.produceFruit();
@@ -122,6 +129,7 @@ public class SnakeGameNormal extends Application implements Runnable {
     }
 
     public void run(GraphicsContext gc) throws IOException {
+        //whenever the game is over the score of that game will be saved, a certain music will be played and the text "Game Over" will be displayed in the middle of the screen
         if (gameOver) {
             if(0 < score){
                 scoreManager.addScore(score);
@@ -151,12 +159,13 @@ public class SnakeGameNormal extends Application implements Runnable {
         snake.drawSnake(gc);
 
         drawScore();
+        //makes all the parts of snake follow each other
         for (int i = snake.getSnakeBody().size() - 1; i >= 1; i--) {
             snake.getSnakeBody().get(i).x = snake.getSnakeBody().get(i - 1).x;
             snake.getSnakeBody().get(i).y = snake.getSnakeBody().get(i - 1).y;
         }
 
-
+        //runs the needed method for each chosen direction
         switch (currentDirection) {
             case RIGHT:
                 moveRight();
@@ -176,23 +185,13 @@ public class SnakeGameNormal extends Application implements Runnable {
         eatFruit();
     }
 
+    //in these four methods below we update the X and Y value for moving in each direction
+    public void moveRight() {snake.getSnakeHead().x++;}
+    public void moveLeft() {snake.getSnakeHead().x--;}
+    public void moveUp() {snake.getSnakeHead().y--;}
+    public void moveDown() {snake.getSnakeHead().y++;}
 
-    public void moveRight() {
-        snake.getSnakeHead().x++;
-    }
-
-    public void moveLeft() {
-        snake.getSnakeHead().x--;
-    }
-
-    public void moveUp() {
-        snake.getSnakeHead().y--;
-    }
-
-    public void moveDown() {
-        snake.getSnakeHead().y++;
-    }
-
+    //in this method we check whenever the snake head touches the body and the walls
     public void gameOver() {
         Point snakeHead = snake.getSnakeHead();
         final double SQUARE_SIZE = background.getSquareSize();
@@ -207,6 +206,7 @@ public class SnakeGameNormal extends Application implements Runnable {
         }
     }
 
+    //in this method we check whenever the snake eats a fruit and afterwards a sound will be played, a new fruit will be created and five scores will be added to the score
     public void eatFruit() throws IOException {
         if (snake.getSnakeHead().getX() == fruit.getFruitX() && snake.getSnakeHead().getY() == fruit.getFruitY()) {
             playSound("SnakeGame2/src/main/resources/com/example/snakegame2/sounds/EatFruitSound_sound.mp3");
@@ -226,20 +226,21 @@ public class SnakeGameNormal extends Application implements Runnable {
         }
     }
 
+    //in this method we draw the score on top left corner of the screen
     public void drawScore() {
         gc.setFill(Color.WHITE);
         gc.setFont(new Font("Digital-7", 35));
         gc.fillText("Score: " + score, 10, 35);
-
     }
 
+    //we use this method to play sounds for eating fruits and game over
     private void playSound(String soundFile){
-
         Media sound = new Media(new File(soundFile).toURI().toString());
         soundPlayer = new MediaPlayer(sound);
         soundPlayer.play();
     }
 
+    //we use this method to play the background music for the game
     private void playMusic(String soundFile){
 
         Media sound = new Media(new File(soundFile).toURI().toString());
@@ -252,6 +253,7 @@ public class SnakeGameNormal extends Application implements Runnable {
         musicPlayer.play();
     }
 
+    //simply restarts the game
     public void restart() throws FileNotFoundException {
         gameOver = false;
         currentDirection = Direction.RIGHT;
@@ -264,6 +266,7 @@ public class SnakeGameNormal extends Application implements Runnable {
         cycleCount += 1;
     }
 
+    //in this method we check if the game is paused or not
     public void pauseGame(Timeline timeline) {
         if (!gamePaused) {
             timeline.pause();
@@ -273,7 +276,6 @@ public class SnakeGameNormal extends Application implements Runnable {
             gamePaused = false;
         }
     }
-
 
     public static void main(String[] args) {
         launch();
@@ -287,14 +289,12 @@ public class SnakeGameNormal extends Application implements Runnable {
                 gameOver = false;
                 currentDirection = Direction.RIGHT;
                 snake.getSnakeBody().clear();
-                cycleCount += 1;
             }
             start(stage);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
 

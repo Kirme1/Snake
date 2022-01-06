@@ -3,7 +3,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -20,9 +19,9 @@ public class SnakeBackground {
     public SnakeBackground(){
         this.canvas = new Canvas();
         this.gc = canvas.getGraphicsContext2D();
-
     }
 
+    //in this method we draw the randomly selected background image with the given information for the size
     public void drawBackground(GraphicsContext gc) throws FileNotFoundException {
 
         Image image = new Image(new FileInputStream("SnakeGame2/src/main/resources/com/example/snakegame2/Background_Green.png"));
@@ -38,8 +37,6 @@ public class SnakeBackground {
         {
             image = new Image(new FileInputStream("SnakeGame2/src/main/resources/com/example/snakegame2/Background_Orange.png"));
         }
-
-
         ImageView imageView = new ImageView();
         imageView.setImage(image);
         imageView.setFitHeight(HEIGHT);
@@ -47,6 +44,7 @@ public class SnakeBackground {
         gc.drawImage(image, 0, 0);
     }
 
+    //getters and setters
     public double getWidth(){
         return WIDTH;
     }

@@ -17,18 +17,17 @@ public class Fruit {
     private int fruitY;
     private GraphicsContext gc;
     private Canvas canvas;
-
     private SnakeBackground backGround;
-
 
     public Fruit(){
         this.fruits = new ArrayList<>();
         this.canvas= new Canvas();
         this.gc= canvas.getGraphicsContext2D();
         this.backGround= new SnakeBackground();
-
     }
 
+    //in this method we add all the pictures of fruits to the arraylist of images
+    //the pictures are from : https://www.youtube.com/watch?v=H9WjCyPFOug
     public void addFruits() throws FileNotFoundException {
         fruits.add(new Image(new FileInputStream("SnakeGame2/src/main/java/Fruit/images/ic_apple.png")));
         fruits.add(new Image(new FileInputStream("SnakeGame2/src/main/java/Fruit/images/ic_berry.png")));
@@ -40,6 +39,8 @@ public class Fruit {
         fruits.add(new Image(new FileInputStream("SnakeGame2/src/main/java/Fruit/images/ic_watermelon.png")));
     }
 
+    //in this method we randomly set a X and a Y value for the coordinate of the fruit
+    //and also we choose a random fruit out of our arraylist of fruits
     public void produceFruit() throws FileNotFoundException {
         fruitX = (int) (Math.random() * backGround.getRows());
         fruitY = (int) (Math.random() * backGround.getColumns());
@@ -47,11 +48,13 @@ public class Fruit {
         fruitImage = fruits.get((int) (Math.random() * fruits.size()));
     }
 
+    //in this method we draw the selected fruit with given information for the size and location of the fruit
     public void drawFruit(GraphicsContext gc) {
         final double SQUARE_SIZE = backGround.getSquareSize();
         gc.drawImage(fruitImage, fruitX * SQUARE_SIZE, fruitY * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
     }
 
+    //getters
     public int getFruitX(){
         return fruitX;
     }

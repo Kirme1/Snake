@@ -5,22 +5,23 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 
 public class ScoreBoard extends Application implements Runnable{
 
-    private static final int WIDTH = 1280;
-    private static final int HEIGHT = 720;
+    private static final int WIDTH = 400;
+    private static final int HEIGHT = 400;
     ScoreManager scoreManager = new ScoreManager();
 
     private void addMenu(VBox menuVBox) {
         ArrayList<Long> scores = scoreManager.readScores();
         for (Long score : scores) {
             Text text = new Text(score.toString());
-            menuVBox.getChildren().add(text);
+            text.setFont(Font.font("",40));
+            menuVBox.getChildren().addAll(text);
         }
     }
 

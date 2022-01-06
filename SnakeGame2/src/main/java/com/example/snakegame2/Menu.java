@@ -1,6 +1,5 @@
 package com.example.snakegame2;
 
-import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -19,7 +18,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -27,28 +25,29 @@ import java.util.List;
 
 public class Menu extends Application {
 
-    private static final int WIDTH = 1280;
-    private static final int HEIGHT = 720;
+    //the format of the menu box was inspired by this video :https://www.youtube.com/watch?v=N2EmtYGLh4U
+    private static final int WIDTH = 1000;
+    private static final int HEIGHT = 600;
     private final SnakeGameNormal normalGame = new SnakeGameNormal();
     private final SnakeGameNoWalls noWallsGame= new SnakeGameNoWalls();
     private final ScoreBoard scoreBoard = new ScoreBoard();
 
+    //here we make it possible to choose from the options in the menu and start the games
     private List<Pair<String, Runnable>> menuData = Arrays.asList(
             new Pair<String, Runnable>("Normal snake game",normalGame
             ),
             new Pair<String, Runnable>("No Walls Snake Game", noWallsGame),
             new Pair<String, Runnable>("Score Board", scoreBoard),
-            new Pair<String, Runnable>("User manual", () -> {
-            }),
             new Pair<String, Runnable>("Exit to Desktop", Platform::exit)
     );
 
     private Pane root = new Pane();
-    private VBox menuBox = new VBox(-5);
+    private VBox menuBox = new VBox(0);
     private Line line;
 
-
-    private void addBackground() throws FileNotFoundException {
+    //in this method we draw the background image for the menu page
+    //the picture is from :https://twitter.com/namatnieks/status/960133231185203201
+    private void drawBackground() throws FileNotFoundException {
         Image image = new Image( new FileInputStream("SnakeGame2/src/main/resources/MainMenuBG.jpg"));
         ImageView imageView = new ImageView();
         imageView.setImage(image);
@@ -57,21 +56,7 @@ public class Menu extends Application {
         root.getChildren().add(imageView);
     }
 
-    private void startAnimation() {
-        ScaleTransition st = new ScaleTransition(Duration.seconds(1), line);
-        st.setToY(1);
-        st.setOnFinished(e -> {
-            for (int i = 0; i < menuBox.getChildren().size(); i++) {
-                Node n = menuBox.getChildren().get(i);
-                TranslateTransition tt = new TranslateTransition(Duration.seconds(1 + i * 0.15), n);
-                tt.setToX(0);
-                tt.setOnFinished(e2 -> n.setClip(null));
-                tt.play();
-            }
-        });
-        st.play();
-    }
-
+    //creates the menu box and its movement when the game is launched
     private void addMenu(double x, double y) {
         menuBox.setTranslateX(x);
         menuBox.setTranslateY(y);
@@ -87,8 +72,6 @@ public class Menu extends Application {
         root.getChildren().add(menuBox);
     }
 
-
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -96,7 +79,7 @@ public class Menu extends Application {
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
         try {
-            addBackground();
+            drawBackground();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -107,14 +90,20 @@ public class Menu extends Application {
         line.setScaleY(0);
         root.getChildren().add(line);
         addMenu(WIDTH/2-95, HEIGHT/3+55);
-        startAnimation();
+        for (int i = 0; i < menuBox.getChildren().size(); i++) {
+            Node node = menuBox.getChildren().get(i);
+            TranslateTransition transition = new TranslateTransition(Duration.seconds(1), node);
+            transition.setToX(0);
+            transition.setOnFinished(e2 -> node.setClip(null));
+            transition.play();}
+
         Scene scene = new Scene(root);
         primaryStage.setTitle("Snake");
         primaryStage.setScene(scene);
         primaryStage.setWidth(WIDTH);
         primaryStage.setHeight(HEIGHT);
         Text title= new Text("SNAKE");
-        title.setTranslateX(WIDTH/2-70);
+        title.setTranslateX(WIDTH/2-85);
         title.setTranslateY(HEIGHT/3);
         title.setFont(Font.font("",50));
         title.setFill(Color.WHITE);
